@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Clima</title>
+    <link rel="stylesheet" href="css/type.css">
+</head>
+
+<body>
+    <h1>Consulte o Clima</h1>
+
+    <div class="busca-container">
+        <input id="cidade" placeholder="Digite a cidade">
+        <button onclick="buscarClima()">Buscar</button>
+    </div>
+
+    <div id="resultado">
+        <h1 id="nome"></h1>
+        <p id="temp"></p>
+        <p id="cond"></p>
+        <p id="umi"></p>
+        <p id="vento"></p>
+    </div>
+
+    <script>
+        function buscarClima() {
+            const apiKey = "de4f5591097ab81d1daabd90a7092d8f";
+            const cidade = document.getElementById("cidade").value;
+            const url = "https://api.openweathermap.org/data/2.5/weather?q=" + cidade + "&appid=" + apiKey + "&units=metric&lang=pt_br";
+            fetch(url)
+                .then(city => city.json())
+                .then(clima => {
+                    document.getElementById("nome").innerText = clima.name + ", " + clima.sys.country;
+                    document.getElementById("temp").innerText = "🌡️ Temperatura: " + clima.main.temp + " °C";
+                    document.getElementById("cond").innerText = "🌤️ Condição: " + clima.weather[0].description;
+                    document.getElementById("umi").innerText = "💧 Umidade: " + clima.main.humidity + "%";
+                    document.getElementById("vento").innerText = "💨 Vento: " + clima.wind.speed + " m/s";
+                })
+        }
+    </script>
+</body>
+
+</html>
